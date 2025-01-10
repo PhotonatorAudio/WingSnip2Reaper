@@ -1,0 +1,200 @@
+html {
+	background: url("https://cdn.mediavalet.com/aunsw/musictribe/MzyOK4tOA0OPLBhSC4ERkw/TgTrsmqOHUiPO4FHpyoWyA/Original/FACE_WEB_Assets_Hero_2024-09-18_Rev.0.jpg"), #000;
+	background-size: 200%;
+	background-repeat: no-repeat;
+	margin: 0;
+	background-position-x: 50%;
+	color: #B78C7B;
+	/*
+	background-size: 200%;
+	margin: 0;
+	background-position-x: 50%;
+
+	background: #000 url("../img/Background_01.jpg") no-repeat fixed;*/
+}
+
+body {
+	background: #FFFFFF45;
+	margin: 0;
+	min-height: 100%;
+	width: 100%;
+	top: 0;
+	position: absolute;
+	padding-top: 20px;
+	display: flex;
+	justify-content: center;
+	flex-wrap: nowrap;
+}
+
+summary {
+	text-align: center;
+	font-size: large;
+}
+
+.innerBody {
+	max-width: 1000px;
+	min-width: 800px;
+}
+
+
+.FloatBox_Outer {
+	display: flex;
+	background: #00000080;
+	padding: 3px;
+	border-radius: 20px;
+	box-shadow: #00000010 2px 2px 3px;
+	margin-bottom: 30px;
+	flex-direction: column;
+	backdrop-filter: blur(8px);
+}
+.FloatBox_OuterHeader {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	align-content: center;
+	flex-wrap: nowrap;
+}
+
+.FloatBox_Inner {
+	background: #ffffff2b;
+	margin: 2px;
+	border-radius: 14px;
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+	/*display: flex;
+	background: #000000ad;
+	margin: 30px 30px 0 30px;
+	padding: 20px;
+	border-radius: 20px;
+	box-shadow: #000 9px 9px 15px;
+	border: solid #ffffff14 5px;
+	display: flex;
+	*/
+}
+
+
+
+#FloatBox_LoadFile button{
+	padding: 5px;
+}
+
+
+#FloatBox_LoadFile{
+	padding: 10px 0;
+	align-items: center;
+}
+
+
+
+
+#Loadile_FileInfo{
+	flex-grow: 1;
+}
+
+
+
+
+
+
+
+#FloatBox_OutTyp{
+	flex-direction: row;
+
+}
+
+#FloatBox_OutSettings{
+	flex-direction: column;
+
+}
+
+#OutputOpt_SelectList{
+	flex-grow: 1;
+}
+
+#OutputOpt_FeatureList{
+	display: flex;
+	flex-direction: column;
+	flex-grow: 1;
+}
+
+
+#RecInterface_SelectInterface{
+	flex-grow: 1;
+		display: flex;
+	flex-direction: column;
+}
+
+
+#FloatBox_RecInterface{
+	flex-direction: column;
+}
+
+#RecInterface_InterfaceContent{
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+}
+
+
+
+
+
+.OutputTable,
+.OutputTable > tr,
+.OutputTable > tr > td {
+	border: black solid 1px;
+	border-collapse:collapse;
+	padding: 4px 10px;
+	text-wrap-mode: nowrap;
+}
+.OutputTable > tr:nth-child(2n+3) {
+	border-bottom-width: 3px;
+}
+
+.FileInfoTable,
+.FileInfoTable > tbody > tr,
+.FileInfoTable > tbody > tr > td {
+	border: black solid 1px;
+	border-collapse:collapse;
+	padding: 4px 10px;
+	text-wrap-mode: nowrap;
+}
+
+
+
+
+.OutputOpt_FeatureList_check:before{
+	content: "\2714";
+	color: lime;
+}
+
+.OutputOpt_FeatureList_cross:before{
+	content: "\2718";
+	color: red;
+}
+
+
+.FloatBox_Line {
+	/*width:100%;
+	padding-top: 8px;*/
+}
+
+
+
+.OutputOpt_FeatureList_check:before{
+	content: "\2714";
+	color: lime;
+}
+.OutputOpt_FeatureList_cross:before{
+	content: "\2718";
+	color: red;
+}
+
+.headerFont {
+	font-family: "Comic Sans MS", cursive, sans-serif;
+	font-size: 30px;
+	font-weight: 700;
+	text-align: center;
+}

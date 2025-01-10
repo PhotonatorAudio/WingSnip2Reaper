@@ -1,0 +1,286 @@
+<!doctype html>
+<html lang="de">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width = device-width, initial-scale = 1.0" />
+        <title>Wing Snap to Reaper</title>
+        <script type="text/javascript" src="script/jquery-3.7.1.min.js"></script>
+        <meta name="description" content="Beschreibungstext">
+        <link rel="shortcut icon" href="img/favicon.ico" />
+        <link rel="stylesheet" href="style/style.css">
+        <script src="script/script.js"></script>
+        <style>
+
+        </style>
+    </head>
+
+    <body>
+        <div class="innerBody">
+
+
+            <!-- Header -->
+            <div class="FloatBox_Outer FloatBox_OuterHeader" >
+                <span class="headerFont">Wing Showfile to Reaper</span>
+                <span class="">V 1.0</span>
+            </div>
+
+            <!-- Import File -->
+            <div class="FloatBox_Outer">
+                <span class="headerFont">Load File</span>
+
+                <div class="FloatBox_Inner" id="FloatBox_LoadFile">
+
+                    <button class="" id="btn_LoadFile">Open Snap File</button>
+
+                </div>
+            </div>
+
+
+            <!-- File Info -->
+            <div class="FloatBox_Outer">
+                <span class="headerFont">File Info</span>
+
+                <div class="FloatBox_Inner" id="FloatBox_FileInfo">
+
+                    <table class="FileInfoTable" id="FloatBox_FileInfoTable">
+                        <tr> <td><span>Filename:</span></td>			<td><span id="span_SnipFile_FileName">-</span></td>			</tr>
+                        <tr> <td><span>Erstellt:</span></td>			<td><span id="span_SnipFile_Created">-</span></td>			</tr>
+                        <tr> <td><span>Console Typ:</span></td>		    <td><span id="span_SnipFile_ConsoleTyp">-</span></td>		</tr>
+                        <tr> <td><span>Console Serial:</span></td>	    <td><span id="span_SnipFile_ConsoleSerial">-</span></td>	</tr>
+                        <tr> <td><span>Console Firmware:</span></td>	<td><span id="span_SnipFile_ConsoleFirmware">-</span></td>	</tr>
+                        <tr> <td><span>Console Name:</span></td>		<td><span id="span_SnipFile_ConsoleName">-</span></td>		</tr>
+                    </table>
+
+                </div>
+            </div>
+
+            <!-- Output Settings -->
+            <div class="FloatBox_Outer">
+                <span class="headerFont">Output Settings</span>
+
+                <div style="display: flex;">
+
+
+                    <div style="padding: 10px; flex-grow: 1;" class="FloatBox_Inner">
+
+                        <div  id="OutputOpt_SelectList">
+                            <div>
+                                <input type="radio" id="opt_outTyp_Web" name="opt_out_Typ" value="WebDirect" autocomplete="off" checked>
+                                <label for="opt_outTyp_Web">Direct Web Command</label>
+                            </div>
+
+                            <div>
+                                <input type="radio" id="opt_outTyp_Template" name="opt_out_Typ" value="Template" autocomplete="off" >
+                                <label for="opt_outTyp_Template">Template</label>
+                            </div>
+                        </div>
+
+
+
+
+                        <div>
+                            <div style="display: flex; flex-direction: column; align-items: flex-start;">
+                                <label for="opt_ReaperWebAddress">Reaper Web address:</label>
+                                <input type="text" id="opt_ReaperWebAddress" name="opt_ReaperAddress" value="127.0.0.1" placeholder="Enter IP Address" autocomplete="off">
+                            </div>
+
+                            <div style="display: flex; flex-direction: column; align-items: flex-start;">
+                                <label for="opt_ReaperWebPort">Reaper Web Port:</label>
+                                <input type="text" id="opt_ReaperWebPort" name="opt_ReaperPort" value="8080" autocomplete="off">
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div style="padding: 10px; flex-grow: 1;" class="FloatBox_Inner">
+
+                        <div id="OutputOpt_FeatureList">
+                            <span >Possible with this methode:</span>
+                            <span id="OutputOpt_FeatureList_AddTrack" class="OutputOpt_FeatureList_check">Add Tracks</span>
+                            <span id="OutputOpt_FeatureList_NameTrack" class="OutputOpt_FeatureList_check">Name Tracks</span>
+                            <span id="OutputOpt_FeatureList_ColorTrack" class="OutputOpt_FeatureList_check">Color Tracks</span>
+                            <span id="OutputOpt_FeatureList_ArmTrack" class="OutputOpt_FeatureList_check">Arm Tracks</span>
+                            <span id="OutputOpt_FeatureList_AssignInput" class="OutputOpt_FeatureList_check">Assign Inputs</span>
+                            <span id="OutputOpt_FeatureList_DisableMon" class="OutputOpt_FeatureList_check">Disable Input Monitoring</span>
+                            <span id="OutputOpt_FeatureList_AssignOutput" class="OutputOpt_FeatureList_cross">Assign Output</span>
+                        </div>
+
+                    </div>
+
+
+
+
+
+
+                    <div style="padding: 10px; flex-grow: 1;"  class="FloatBox_Inner">
+
+                        <div>
+                            <input type="checkbox" id="opt_outSet_ColTrack" name="opt_outSet_ColTrack" value="1" checked>
+                            <label for="opt_outSet_ColTrack"> Color Tracks</label><br>
+                        </div>
+
+                        <div>
+                            <input type="checkbox" id="opt_outSet_ArmTrack" name="opt_outSet_ArmTrack" value="1" checked>
+                            <label for="opt_outSet_ArmTrack"> Arm Tracks</label><br>
+                        </div>
+
+                        <div>
+                            <input type="checkbox" id="opt_outSet_AssignInput" name="opt_outSet_AssignInput" value="1" checked>
+                            <label for="opt_outSet_AssignInput"> Assign Input</label><br>
+                        </div>
+
+                        <div>
+                            <input type="checkbox" id="opt_outSet_DisInputMon" name="opt_outSet_DisInputMon" value="1" checked>
+                            <label for="opt_outSet_DisInputMon"> Disable Input Monitoring</label><br>
+                        </div>
+
+                        <div>
+                            <input type="checkbox" id="opt_outSet_AssignOutput" name="opt_outSet_AssignOutput" value="1" checked>
+                            <label for="opt_outSet_AssignOutput"> Assign Output</label><br>
+                        </div>
+
+                        <div>
+                            <input type="checkbox" id="opt_outSet_UseStereoTracks" name="opt_outSet_UseStereoTracks" value="1" checked>
+                            <label for="opt_outSet_UseStereoTracks"> Stereo Tracks</label><br>
+                        </div>
+
+
+
+
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Output --------------------------------------------------------------------------------------------------------------------------------- -->
+            <div class="FloatBox_Outer">
+                <span class="headerFont">Output</span>
+
+                <div class="FloatBox_Inner">
+
+
+
+                    <div style="display: flex; flex-direction: column; padding: 10px;" id="RecInterface_InterfaceContent">
+
+
+                        <!-- AES50 A -->
+                        <div class="FloatBox_Outer" style="border: 1px solid black; margin-bottom: 10px;">
+                            <span style="width: 100%; display:block; text-align: center;">AES50 A</span>
+                            <div class="FloatBox_Inner" style="padding: 10px;">
+                                <div style="display: flex; flex-direction: row-reverse; justify-content: space-between; align-items: flex-start;">
+                                    <input type="button" id="AESA_Send" name="A" value="Send to Reaper" data-interface="A" onclick="send2reaper(this)">
+                                    <span id="OutputError_A" style="color:red"></span >
+                                </div>
+                                <details class="OutIf_Dropdown">
+                                    <summary>AES A</summary>
+                                    <table class="OutputTable" id="Interface_A_Channels" style="width: 100%"></table>
+                                </details>
+                            </div>
+                        </div>
+
+                        <!-- AES50 B -->
+                        <div class="FloatBox_Outer" style="border: 1px solid black; margin-bottom: 10px;">
+                            <span style="width: 100%; display:block; text-align: center;">AES50 B</span>
+                            <div class="FloatBox_Inner" style="padding: 10px;">
+                                <div style="display: flex; flex-direction: row-reverse; justify-content: space-between; align-items: flex-start;">
+                                    <input type="button" id="AESB_Send" name="B" value="Send to Reaper" data-interface="B" onclick="send2reaper(this)">
+                                    <span id="OutputError_B" style="color:red"></span>
+                                </div>
+                                <details class="OutIf_Dropdown">
+                                    <summary>Show Output</summary>
+                                    <table class="OutputTable" id="Interface_B_Channels" style="width: 100%"></table>
+                                </details>
+                            </div>
+                        </div>
+                        <!-- AES50 C -->
+                        <div class="FloatBox_Outer" style="border: 1px solid black; margin-bottom: 10px;">
+                            <span style="width: 100%; display:block; text-align: center;">AES50 C</span>
+                            <div class="FloatBox_Inner" style="padding: 10px;">
+                                <div style="display: flex; flex-direction: row-reverse; justify-content: space-between; align-items: flex-start;">
+                                    <input type="button" id="AESC_Send" name="C" value="Send to Reaper" data-interface="C" onclick="send2reaper(this)">
+                                    <span id="OutputError_C" style="color:red"></span>
+                                </div>
+                                <details class="OutIf_Dropdown">
+                                    <summary>Show Output</summary>
+                                    <table class="OutputTable" id="Interface_C_Channels" style="width: 100%"></table>
+                                </details>
+                            </div>
+                        </div>
+                        <!-- USB -->
+                        <div class="FloatBox_Outer" style="border: 1px solid black; margin-bottom: 10px;">
+                            <span style="width: 100%; display:block; text-align: center;">USB</span>
+                            <div class="FloatBox_Inner" style="padding: 10px;">
+                                <div style="display: flex; flex-direction: row-reverse; justify-content: space-between; align-items: flex-start;">
+                                    <input type="button" id="USB_Send" name="USB" value="Send to Reaper" data-interface="USB" onclick="send2reaper(this)">
+                                    <span id="OutputError_USB" style="color:red"></span>
+                                </div>
+                                <details class="OutIf_Dropdown">
+                                    <summary>Show Output</summary>
+                                    <table class="OutputTable" id="Interface_USB_Channels" style="width: 100%"></table>
+                                </details>
+                            </div>
+                        </div>
+
+                        <!-- External Card -->
+                        <div class="FloatBox_Outer" style="border: 1px solid black; margin-bottom: 10px;">
+                            <span style="width: 100%; display:block; text-align: center;">Card</span>
+                            <div class="FloatBox_Inner" style="padding: 10px;">
+                                <div style="display: flex; flex-direction: row-reverse; justify-content: space-between; align-items: flex-start;">
+                                    <input type="button" id="CRD_Send" name="CRD" value="Send to Reaper" data-interface="CRD" onclick="send2reaper(this)">
+                                    <span id="OutputError_CRD" style="color:red"></span>
+                                </div>
+                                <details class="OutIf_Dropdown">
+                                    <summary>Show Output</summary>
+                                    <table class="OutputTable" id="Interface_CRD_Channels" style="width: 100%"></table>
+                                </details>
+                            </div>
+                        </div>
+
+
+                        <!-- Internal Module -->
+                        <div class="FloatBox_Outer" style="border: 1px solid black; margin-bottom: 10px;">
+                            <span style="width: 100%; display:block; text-align: center;">Internal Module</span>
+                            <div class="FloatBox_Inner" style="padding: 10px;">
+                                <div style="display: flex; flex-direction: row-reverse; justify-content: space-between; align-items: flex-start;">
+                                    <input type="button" id="MOD_Send" name="MOD" value="Send to Reaper" data-interface="MOD" onclick="send2reaper(this)">
+                                    <span id="OutputError_MOD" style="color:red"></span>
+                                </div>
+                                <details class="OutIf_Dropdown">
+                                    <summary>Show Output</summary>
+                                    <table class="OutputTable" id="Interface_MOD_Channels" style="width: 100%"></table>
+                                </details>
+                            </div>
+                        </div>
+
+
+                        <!-- Stage Connect -->
+                        <div class="FloatBox_Outer" style="border: 1px solid black; margin-bottom: 10px;">
+                            <span style="width: 100%; display:block; text-align: center;">StageConnect</span>
+                            <div class="FloatBox_Inner" style="padding: 10px;">
+                                <div style="display: flex; flex-direction: row-reverse; justify-content: space-between; align-items: flex-start;">
+                                    <input type="button" id="SC_Send" name="SC" value="Send to Reaper" data-interface="SC" onclick="send2reaper(this)">
+                                    <span id="OutputError_SC" style="color:red"></span>
+                                </div>
+
+                                <details class="OutIf_Dropdown">
+                                    <summary>Show Output</summary>
+                                    <table class="OutputTable" id="Interface_SC_Channels" style="width: 100%"></table>
+                                </details>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
+
+                </div>
+            </div>
+
+
+
+        </div>
+
+    </body>
+</html>
