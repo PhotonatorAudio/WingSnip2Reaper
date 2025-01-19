@@ -73,12 +73,73 @@ function send2reaper(ssrc) {
 }
 
 function Output_Template( InterfaceData ) {
-	
-	
-	
+	let OutputFileContent = "";
+	let ReaperTrackNr = 1;
+	let Interface_ChannelsCount = InterfaceData.length;
+	for ( let index = 0, length = Interface_ChannelsCount; index < length; index++ ) {
+		let Interface_ChannelNr = 	index + 1;
 
-	
-	
+		let This_Src_ColorNr =		InterfaceData[index]['Color'];
+		let This_Src_BackColorHex =	WingColors[ This_Src_ColorNr ];
+		/*let This_Src_TextColorHex =	TextColors[ This_Src_ColorNr ];
+		let This_Src_SrcGroup =		InterfaceData[index]['Src_Grp'];
+		let This_Src_SrcNr =		InterfaceData[index]['Src_Nr'];
+		let This_Src_Typ =			InterfaceData[index]['Typ'];*/
+		let This_Src_Name =			InterfaceData[index]['Name'];
+		let This_Src_StereoMode = 	InterfaceData[index]['StereoMode'];
+		/*let This_Src_StereoSide = 	InterfaceData[index]['StereoSide'];*/
+
+		let LastChannel =  ( (index + 1) === Interface_ChannelsCount );	// True Wenn letzter kanal
+		let This_IsDualCh = (  This_Src_StereoMode === "ST" || This_Src_StereoMode === "M/S"  ); // True Wenn dieser Channel ein Dual
+
+		let F_Ret_ProcessAsStereo = F_ProcessAsStereo( This_IsDualCh, LastChannel, Interface_ChannelNr, InterfaceData[index], InterfaceData[index+1]);
+		let ProcessAsStereo = F_Ret_ProcessAsStereo['ProcessAsStereo'];
+
+		let ReaperInput_Nr = Interface_ChannelNr - 1;
+		let ReaperOutput_Nr = Interface_ChannelNr + 1023;
+		if (ProcessAsStereo && $("#opt_outSet_UseStereoTracks").is(':checked') ) {
+			ReaperInput_Nr += 1024;
+			ReaperOutput_Nr -= 1024;
+			index++;
+		}
+
+
+		OutputFileContent += '<TRACK\n';
+		OutputFileContent += 'NAME "' + This_Src_Name + '"\n';
+
+		if ( $("#opt_outSet_ColTrack").is(':checked') ) {
+			OutputFileContent += 'PEAKCOL ' + HexCol2ReaperColor(This_Src_BackColorHex, 1) + '\n';
+		}
+
+		OutputFileContent += 'MAINSEND 0 0\n'; // 1. MainSend 2. SendChannel 0=1/2 | 1=2/3...
+
+		let FlagMonInput = 1;
+		let FlagRecEnabled = 0;
+		let NrRecInput = -1;
+
+		if ( $("#opt_outSet_DisInputMon").is(':checked') ) {
+			FlagMonInput = 0;
+		}
+		if ( $("#opt_outSet_ArmTrack").is(':checked') ) {
+			FlagRecEnabled = 1;
+		}
+		if ( $("#opt_outSet_AssignInput").is(':checked') ) {
+			NrRecInput = ReaperInput_Nr;
+		}
+		OutputFileContent += 'REC ' + FlagRecEnabled + ' ' + NrRecInput + ' ' + FlagMonInput + ' 0 0 0 0 0\n';
+
+		if ( $("#opt_outSet_AssignOutput").is(':checked') ) {
+			OutputFileContent += 'HWOUT ' + ReaperOutput_Nr + ' 0 1 0 0 0 0 -1:U -1\n';
+		}
+
+		OutputFileContent += '>\n';
+		ReaperTrackNr++;
+	}
+
+
+
+
+	download('hello.RTrackTemplate',OutputFileContent);
 }
 
 function Output_WebDirect( InterfaceData ) {
@@ -131,7 +192,7 @@ function Output_WebDirect( InterfaceData ) {
 		combinedRequest = combinedRequest + "SET/TRACK/" + ReaperTrackNr + "/P_NAME/" + This_Src_Name + ";";
 
 		if ( $("#opt_outSet_ColTrack").is(':checked') ) {
-			combinedRequest = combinedRequest + "SET/TRACK/" + ReaperTrackNr + "/I_CUSTOMCOLOR/" + HexCol2ReaperColor(This_Src_BackColorHex) + ";";
+			combinedRequest = combinedRequest + "SET/TRACK/" + ReaperTrackNr + "/I_CUSTOMCOLOR/" + HexCol2ReaperColor(This_Src_BackColorHex,0) + ";";
 		}
 
 		if ( $("#opt_outSet_DisInputMon").is(':checked') ) {
@@ -564,16 +625,34 @@ function Page_WriteFileInfo( SnipFile_Name, var_SnipFile_ConsoleTyp, var_SnipFil
 /* ***** ***** ***** ***** ***** *****                               ***** ***** ***** ***** ***** ***** ***** */
 /* ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** ***** */
 
+function download(filename, text) {
+	var element = document.createElement('a');
+	element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+	element.setAttribute('download', filename);
+	element.style.display = 'none';
+	document.body.appendChild(element);
+	element.click();
+	document.body.removeChild(element);
+}
+
 
 // Funktion die eine HexFarbe als Reaper Farb-Nr. zurückgibt ------------------------------------------------
-const HexCol2ReaperColor = (hex) => {
+const HexCol2ReaperColor = (hex, calcmethode) => {
 	// Zerlege RGB-Hex in Grundfarben-Hex
     let r = parseInt(hex.slice(1, 3), 16);
 	let g = parseInt(hex.slice(3, 5), 16);
 	let b = parseInt(hex.slice(5, 7), 16);
 
-	// Reaper "Addiert" 16777216 (0x1000000) zur Farbe
-	return (r * 65536) + (g * 256) + b + 16777216; // 16777216 = 0x1000000 = R0 G0 B0 // Default Wert
+	if (calcmethode === 0 ){ // for web command
+		// Reaper "Addiert" 16777216 (0x1000000) zur Farbe
+		return (r * 65536) + (g * 256) + b + 16777216; // 16777216 = 0x1000000 = R0 G0 B0 // Default Wert
+
+	} else if (calcmethode === 1 ){ // for template
+		// Reaper "Addiert" 16777216 (0x1000000) zur Farbe
+		return (b * 65536) + (g * 256) + r + 16777216; //
+	}
+
+
 }
 
 // Funktion die zurückgibt ob Zahl Gerade ist ---------------------------------------------------------------
